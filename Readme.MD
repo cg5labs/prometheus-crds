@@ -7,13 +7,13 @@ This Helm chart deploys a [Prometheus Operator](https://github.com/prometheus-op
 ## 🚀 Installation
 
 ```bash
-helm install my-prometheus ./my-prometheus-chart
+helm install prometheus-crds ./helm/prometheus-crds
 ```
 
 
 To install with custom values:
 ```bash
-helm install my-prometheus ./my-prometheus-chart -f my-values.yaml
+helm install prometheus-crds ./helm/prometheus-crds -f ./custom-values.yaml
 ```
 
 📦 Parameters
