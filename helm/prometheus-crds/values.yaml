@@ -1,0 +1,34 @@
+name: prometheus-eks2
+namespace: cleanroom
+labels:
+  prometheus: prometheus-eks2
+  app: prometheus-eks2
+replicas: 1
+clusterName: eks-2
+
+serviceAccount:
+  name: prometheus
+  labels: {}
+  annotations: {}
+  automountToken: true
+
+  rbac:
+    enabled: true
+    kind: ClusterRole  # Options: Role or ClusterRole
+    name: prometheus-cluster-role
+    bindingName: prometheus-cluster-rolebinding
+    rules:
+      - apiGroups: [""]
+        resources: ["pods", "services", "endpoints"]
+        verbs: ["get", "list", "watch"]
+
+alerting:
+  alertmanagers:
+    - name: alertmanager
+      namespace: default
+      port: web
+
+#additionalScrapeConfigs:
+#  name: additional-scrape-configs2
+#  key: prometheus-additional2.yaml
+

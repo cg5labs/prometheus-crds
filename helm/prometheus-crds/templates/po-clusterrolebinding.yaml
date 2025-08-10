@@ -1,0 +1,18 @@
+{{- if .Values.serviceAccount.rbac.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: {{ if eq .Values.serviceAccount.rbac.kind "ClusterRole" }}ClusterRoleBinding{{ else }}RoleBinding{{ end }}
+metadata:
+  name: {{ .Values.serviceAccount.rbac.bindingName }}
+  {{- if eq .Values.serviceAccount.rbac.kind "Role" }}
+  namespace: {{ .Values.namespace }}
+  {{- end }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.serviceAccount.name }}
+    namespace: {{ .Values.namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: {{ .Values.serviceAccount.rbac.kind }}
+  name: {{ .Values.serviceAccount.rbac.name }}
+{{- end }}
+

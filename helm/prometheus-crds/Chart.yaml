@@ -1,0 +1,7 @@
+apiVersion: v2
+name: prometheus-crds
+description: A Helm chart for deploying Prometheus Operator CRDs
+type: application
+version: 0.1.0
+appVersion: "v1"
+

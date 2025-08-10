@@ -1,0 +1,29 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    prometheus: {{ .Values.labels.prometheus }}
+spec:
+  replicas: {{ .Values.replicas }}
+  podMetadata:
+    labels:
+      app: {{ .Values.labels.app }}
+  externalLabels:
+    cluster: {{ .Values.clusterName }}
+  serviceAccountName: {{ .Values.serviceAccount.name }}
+  serviceMonitorSelector: {}
+  alerting:
+    alertmanagers:
+    {{- range .Values.alerting.alertmanagers }}
+    - namespace: {{ .namespace }}
+      name: {{ .name }}
+      port: {{ .port }}
+    {{- end }}
+  {{- if and .Values.additionalScrapeConfigs .Values.additionalScrapeConfigs.name .Values.additionalScrapeConfigs.key }}
+  additionalScrapeConfigs:
+    name: {{ .Values.additionalScrapeConfigs.name }}
+    key: {{ .Values.additionalScrapeConfigs.key }}
+  {{- end }}
+
